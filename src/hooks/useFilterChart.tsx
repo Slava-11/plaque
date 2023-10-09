@@ -7,3 +7,5 @@ export const useFilterChart = () => {
   );
   return filterChart;
 };
+// Обьяснить почему не value
+/// идет что то что будет меняться с массивом

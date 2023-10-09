@@ -4,6 +4,8 @@ type ApiContextType = {
   data: any;
   search: string | number;
   setSearch: string | number;
+  vault: any;
+  setVault: any;
 };
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -28,13 +30,15 @@ export const ApiProvider: React.FC<ApiProviderProps> = ({ children }) => {
     { name: "Bob", age: 28, country: "UK" },
   ];
   const [search, setSearch] = useState('')
-
+  const [vault, setVault] = useState(data)
   return (
     <ApiContext.Provider
       value={{
         data,
         search,
-        setSearch
+        setSearch,
+        vault,
+        setVault,
       }}
     >
       {children}
