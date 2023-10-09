@@ -1,10 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
-import { Data, initialRows } from '../utils/utils'; ////////////////// Важно
+import React, { createContext, useContext, useEffect, useState } from "react";
+
 type ApiContextType = {
-  data: Data[];
-  setData: React.Dispatch<React.SetStateAction<Data[]>>;
-  filter: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
+  data: any;
+  search: string | number;
+  setSearch: string | number;
 };
 
 const ApiContext = createContext<ApiContextType | undefined>(undefined);
@@ -12,7 +11,7 @@ const ApiContext = createContext<ApiContextType | undefined>(undefined);
 export const useApiContext = () => {
   const context = useContext(ApiContext);
   if (!context) {
-    throw new Error('useApiContext must be used within an ApiProvider');
+    throw new Error("useApiContext must be used within an ApiProvider");
   }
   return context;
 };
@@ -22,17 +21,20 @@ type ApiProviderProps = {
 };
 
 export const ApiProvider: React.FC<ApiProviderProps> = ({ children }) => {
-  const [data, setData] = useState<Data[]>(initialRows);
-  const [filter, setFilter] = useState('');
-
+  const data = [
+    { name: "Slava", age: 19, country: "Ukraine" },
+    { name: "John", age: 30, country: "USA" },
+    { name: "Alice", age: 25, country: "Canada" },
+    { name: "Bob", age: 28, country: "UK" },
+  ];
+  const [search, setSearch] = useState('')
 
   return (
     <ApiContext.Provider
       value={{
         data,
-        setData,
-        filter,
-        setFilter
+        search,
+        setSearch
       }}
     >
       {children}
