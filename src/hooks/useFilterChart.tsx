@@ -1,7 +1,7 @@
-import { useApiContext } from "../context/AppContext";
+import { useAppTableContext } from "../context/AppTableContext";
 
 export const useFilterChart = () => {
-  const { data, search } = useApiContext();
+  const { data, search } = useAppTableContext();
   const filterChart = data.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
   );

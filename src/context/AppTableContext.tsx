@@ -1,32 +1,39 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
+import { MyData } from "../utils/utils";
 
-type ApiContextType = {
-  data: any;
+type AppTableContextType = {
+  data: MyData[];
   search: string | number | boolean;
   setSearch: string | number;
-  vault: any;
-  setVault: any;
+  vault: MyData[];
+  setVault: MyData[];
   page: number;
   setPage: number;
   rowsPerPage: number;
   setRowsPerPage: number;
 };
 
-const ApiContext = createContext<ApiContextType | undefined>(undefined);
 
-export const useApiContext = () => {
-  const context = useContext(ApiContext);
+const AppTableContext = createContext<AppTableContextType | undefined>(undefined);
+
+export const useAppTableContext = () => {
+  const context = useContext(AppTableContext);
   if (!context) {
-    throw new Error("useApiContext must be used within an ApiProvider");
+    throw new Error("useApiContext must be used within an TableProvider");
   }
   return context;
 };
 
-type ApiProviderProps = {
+type TableProviderProps = {
   children: React.ReactNode;
 };
 
-export const ApiProvider: React.FC<ApiProviderProps> = ({ children }) => {
+export const TableProvider: React.FC<TableProviderProps> = ({ children }) => {
+  const colums = [{
+    name: 'Name',
+    age: 'Age',
+    country: 'Country',
+  }]
   const data = [
     { name: "Slava", age: 19, country: "Ukraine" },
     { name: "John", age: 30, country: "USA" },
@@ -51,13 +58,14 @@ export const ApiProvider: React.FC<ApiProviderProps> = ({ children }) => {
   const [vault, setVault] = useState(data)
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const updateOnSearchChange=(search: string) =>{
-    setPage(0)
-    setSearch(search)
-  }
+  // const updateOnSearchChange=(search: string) =>{
+  //   setPage(0)
+  //   setSearch(search)
+  // }
   return (
-    <ApiContext.Provider
+    <AppTableContext.Provider
       value={{
+        colums,
         data,
         search,
         setSearch,
@@ -70,6 +78,6 @@ export const ApiProvider: React.FC<ApiProviderProps> = ({ children }) => {
       }}
     >
       {children}
-    </ApiContext.Provider>
+    </AppTableContext.Provider>
   );
 };

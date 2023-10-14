@@ -1,19 +1,13 @@
-import { ApiProvider } from "./context/AppContext";
-import { Chart } from "./sections/Chart";
-import DataTable from "./sections/DataTable";
-import PaginatedTable from "./sections/PaginatedTable";
-import TableExample from "./sections/TableExample";
+import { TableProvider } from "./context/AppTableContext";
+import { AppTable } from "./sections/AppTable";
 
 function App() {
   return (
-    <ApiProvider>
+    <TableProvider>
       <main>
-        {/* <TableExample/> */}
-        {/* <PaginatedTable/> */}
-        {/* <DataTable/> */}
-        <Chart/>
+        <AppTable />
       </main>
-    </ApiProvider>
+    </TableProvider>
   );
 }
 

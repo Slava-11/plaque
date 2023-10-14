@@ -1,9 +1,14 @@
-import { useApiContext } from "../context/AppContext";
+import { useAppTableContext } from "../context/AppTableContext";
+import { ChangeEvent } from "react";
 
 export const useHandleSearchChange = () => {
-    const { setSearch } = useApiContext();
-    const handleSearchChange = (event) => {
-        setSearch(event.target.value);
-      };
-  return handleSearchChange
-}
+  const { setSearch, setPage } = useAppTableContext();
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newSearch = event.target.value;
+    setSearch(newSearch);
+    setPage(0);
+  };
+
+  return handleSearchChange;
+};
