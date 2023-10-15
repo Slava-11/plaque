@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { MyScopeData } from "../types/types";
-import { dateUsers } from "../api/api";
+import { fetchUsers } from "../api/api";
 
 type AppTableContextType = {
   scopeData: MyScopeData[];
@@ -40,7 +40,7 @@ export const TableProvider: React.FC<TableProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const users = await dateUsers();
+        const users = await fetchUsers();
         setScopeData(users);
         setData(users);
       } catch (error) {
