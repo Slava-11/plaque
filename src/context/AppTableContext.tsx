@@ -1,12 +1,13 @@
-import React, { createContext, useContext, useState } from "react";
-import { MyData } from "../utils/utils";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { MyScopeData } from "../types/types";
+import { dateUsers } from "../api/api";
 
 type AppTableContextType = {
-  data: MyData[];
+  scopeData: MyScopeData[];
   search: string | number | boolean;
   setSearch: string | number;
-  vault: MyData[];
-  setVault: MyData[];
+  data: MyScopeData[];
+  setData: MyScopeData[];
   page: number;
   setPage: number;
   rowsPerPage: number;
@@ -29,48 +30,35 @@ type TableProviderProps = {
 };
 
 export const TableProvider: React.FC<TableProviderProps> = ({ children }) => {
-  const colums = [{
-    name: 'Name',
-    age: 'Age',
-    country: 'Country',
-  }]
-  const data = [
-    { name: "Slava", age: 19, country: "Ukraine" },
-    { name: "John", age: 30, country: "USA" },
-    { name: "Alice", age: 25, country: "Canada" },
-    { name: "Bob", age: 28, country: "UK" },
-    { name: "Johny", age: 20, country: "USA" },
-    { name: "Boby", age: 18, country: "UK" },
-    { name: "Slava", age: 19, country: "Ukraine" },
-    { name: "John", age: 30, country: "USA" },
-    { name: "Alice", age: 25, country: "Canada" },
-    { name: "Bob", age: 28, country: "UK" },
-    { name: "Johny", age: 20, country: "USA" },
-    { name: "Boby", age: 18, country: "UK" },
-    { name: "Slava", age: 19, country: "Ukraine" },
-    { name: "John", age: 30, country: "USA" },
-    { name: "Alice", age: 25, country: "Canada" },
-    { name: "Bob", age: 28, country: "UK" },
-    { name: "Johny", age: 20, country: "USA" },
-    { name: "Boby", age: 18, country: "UK" },
-  ];
+  
+  const [scopeData, setScopeData] = useState<MyScopeData[]>([]);
   const [search, setSearch] = useState('')
-  const [vault, setVault] = useState(data)
+  const [data, setData] = useState<MyScopeData[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const updateOnSearchChange=(search: string) =>{
-  //   setPage(0)
-  //   setSearch(search)
-  // }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const users = await dateUsers();
+        setScopeData(users);
+        setData(users);
+      } catch (error) {
+        console.error("Помилка під час отримання даних:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
   return (
     <AppTableContext.Provider
       value={{
-        colums,
-        data,
+        scopeData,
         search,
         setSearch,
-        vault,
-        setVault,
+        data,
+        setData,
         page,
         setPage,
         rowsPerPage,

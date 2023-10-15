@@ -1,9 +1,9 @@
 import { useAppTableContext } from "../context/AppTableContext";
 
-export const useHandleChangePage = () => {
+export const useChangePage = () => {
   const { setPage } = useAppTableContext();
-  const handleChangePage = (event, newPage) => {
+  const changePage = (event, newPage) => {
     setPage(newPage);
   };
-  return handleChangePage;
+  return changePage;
 };

@@ -7,30 +7,27 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useAppTableContext } from "../context/AppTableContext";
-import { useHandleSearchChange } from "../hooks/useHandleSearchChange";
-import { useFilterChart } from "../hooks/useFilterChart";
-import { useHandleChangePage } from "../hooks/useHandleChangePage";
-import { useHandleChangeRowsPerPage } from "../hooks/useHandleChangeRowsPerPage";
+import { useSearchChange } from "../hooks/useSearchChange";
+import { useFilterTable } from "../hooks/useFilterTable";
+import { useChangePage } from "../hooks/useChangePage";
+import { useChangeRowsPerPage } from "../hooks/useChangeRowsPerPage";
 import React, { useEffect } from "react";
 import TablePagination from "@mui/material/TablePagination";
+import { columns } from "../data/data";
 
 export const AppTable = () => {
-  const {
-    colums,
-    vault,
-    search,
-    setVault,
-    page,
-    rowsPerPage,
-    setRowsPerPage,
-  } = useAppTableContext();
-  const handleSearchChange = useHandleSearchChange();
-  const filterChart = useFilterChart(); ////////////////// ОБЬЯСНИТЬ МНЕ там где метод map
-  const handleChangePage = useHandleChangePage();
-  const handleChangeRowsPerPage = useHandleChangeRowsPerPage();
+  const { data, search, setData, page, rowsPerPage } = useAppTableContext();
+  const searchChange = useSearchChange();
+  const filterTable = useFilterTable();
+  const changePage = useChangePage();
+  const changeRowsPerPage = useChangeRowsPerPage();
+  const sliceData = data.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
   useEffect(() => {
-    setVault(filterChart);
-  }, [filterChart, setVault, search, page, rowsPerPage]);
+    setData(filterTable);
+  }, [filterTable, setData, search, page, rowsPerPage]);
 
   return (
     <>
@@ -38,40 +35,38 @@ export const AppTable = () => {
         label="Введите текст"
         variant="outlined"
         value={search}
-        onChange={handleSearchChange}
+        onChange={searchChange}
       />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            {colums.map((row, index) => (
+            {columns.map((row, index) => (
               <TableRow key={index}>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{row.age}</TableCell>
-                <TableCell>{row.country}</TableCell>
+                <TableCell>{row.username}</TableCell>
+                <TableCell>{row.email}</TableCell>
               </TableRow>
             ))}
           </TableHead>
           <TableBody>
-            {vault
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.age}</TableCell>
-                  <TableCell>{row.country}</TableCell>
-                </TableRow>
-              ))}
+            {sliceData.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.username}</TableCell>
+                <TableCell>{row.email}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={vault.length}
+        count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+        onPageChange={changePage}
+        onRowsPerPageChange={changeRowsPerPage}
       />
     </>
   );
