@@ -5,13 +5,13 @@ import { fetchUsers } from "../api/api";
 type AppTableContextType = {
   scopeData: MyScopeData[];
   search: string | number | boolean;
-  setSearch: string | number;
+  setSearch: React.Dispatch<React.SetStateAction<string | number | boolean>>;
   data: MyScopeData[];
-  setData: MyScopeData[];
+  setData: React.Dispatch<React.SetStateAction<MyScopeData[]>>;
   page: number;
-  setPage: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   rowsPerPage: number;
-  setRowsPerPage: number;
+  setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 
