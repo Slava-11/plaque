@@ -11,7 +11,7 @@ import { useSearchChange } from "../hooks/useSearchChange";
 import { useFilterTable } from "../hooks/useFilterTable";
 import { useChangePage } from "../hooks/useChangePage";
 import { useChangeRowsPerPage } from "../hooks/useChangeRowsPerPage";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import TablePagination from "@mui/material/TablePagination";
 import { columns } from "../data/data";
 
@@ -65,6 +65,7 @@ export const AppTable = () => {
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
+        //@ts-expect-error abc
         onPageChange={changePage}
         onRowsPerPageChange={changeRowsPerPage}
       />
