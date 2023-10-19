@@ -14,13 +14,12 @@ type AppTableContextType = {
   setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-
 const AppTableContext = createContext<AppTableContextType | undefined>(undefined);
 
 export const useAppTableContext = () => {
   const context = useContext(AppTableContext);
   if (!context) {
-    throw new Error("useApiContext must be used within an TableProvider");
+    throw new Error("useAppTableContext must be used within a TableProvider");
   }
   return context;
 };
@@ -30,12 +29,11 @@ type TableProviderProps = {
 };
 
 export const TableProvider: React.FC<TableProviderProps> = ({ children }) => {
-  
   const [scopeData, setScopeData] = useState<MyScopeData[]>([]);
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState<string | number | boolean>('');
   const [data, setData] = useState<MyScopeData[]>([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +48,7 @@ export const TableProvider: React.FC<TableProviderProps> = ({ children }) => {
 
     fetchData();
   }, []);
-  
+
   return (
     <AppTableContext.Provider
       value={{
